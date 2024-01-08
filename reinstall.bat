@@ -25,7 +25,7 @@ if not exist %tmp% (
 
 :: 检查是否国内
 if not exist %tmp%\geoip (
-    call :download http://www.cloudflare.com/cdn-cgi/trace %tmp%\geoip
+    curl http://www.cloudflare.com/cdn-cgi/trace -o %tmp%\geoip
 )
 findstr /c:"loc=CN" %tmp%\geoip >nul
 if !errorlevel! == 0 (
@@ -60,7 +60,7 @@ if not exist !tags! (
     )
 
     :: 下载 Cygwin
-    call :download http://www.cygwin.com/setup-!arch!.exe %tmp%\setup-cygwin.exe
+    curl http://www.cygwin.com/setup-!arch!.exe -o %tmp%\setup-cygwin.exe
 
     :: 安装 Cygwin
     set site=!mirror!!dir!
@@ -76,7 +76,7 @@ if not exist !tags! (
 
 :: 下载 reinstall.sh
 if not exist reinstall.sh (
-    call :download %confhome%/reinstall.sh %~dp0reinstall.sh
+    curl %confhome%/reinstall.sh -o %~dp0reinstall.sh
 )
 
 :: 为每个参数添加引号，使参数正确传递到 bash
